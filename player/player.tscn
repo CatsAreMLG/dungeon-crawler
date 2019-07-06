@@ -207,7 +207,6 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 offset = Vector2( 0, -8 )
-flip_h = true
 vframes = 2
 hframes = 9
 frame = 3
@@ -217,7 +216,7 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="anim" type="AnimationPlayer" parent="."]
-playback_speed = 2.0
+playback_speed = 4.0
 anims/idleleft = SubResource( 2 )
 anims/idleright = SubResource( 3 )
 anims/walkleft = SubResource( 4 )
