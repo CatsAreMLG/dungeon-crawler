@@ -3,21 +3,22 @@ extends KinematicBody2D
 
 var SPEED = 0
 var TYPE = "ENEMY"
+var MAXHEALTH = 2
 var DAMAGE = 1
 
 var movedir = dir.center
 var knockdir = dir.center
 var spritedir = "right"
 
+var health = MAXHEALTH
 var hitstun = 0
 var hurt = 0
-var health = 1
 var texture_default = null
 var texture_hurt = null
 
-#func _ready():
-#	texture_default =$Sprite.texture
-#	texture_hurt = load($Sprite.texture.get_path().replace(".png", "_hurt.png"))
+func _ready():
+	if TYPE == "ENEMY":
+		set_physics_process(false)
 
 func movement_loop():
 	var motion
@@ -44,19 +45,21 @@ func damage_loop():
 		hitstun -= 1
 	if hurt > 0:
 		hurt -= 1
-		#To make sprite turn to white
 		$Sprite.modulate = Color(10,0.5,0.5,0.9)
 	else:
-		#To make sprite turn to white
 		$Sprite.modulate = Color(1,1,1,1)
+		if TYPE == "ENEMY" && health <= 0:
+			var death_animation = preload("res://enemies/enemy_death.tscn").instance()
+			get_parent().add_child(death_animation)
+			death_animation.global_transform = global_transform
+			queue_free()
 	for area in $hitbox.get_overlapping_areas():
 		var body = area.get_parent()
-		if hitstun == 0 && body.get("DAMAGE") != 0 && body.get("TYPE") != TYPE:
+		if hitstun == 0 && body.get("DAMAGE") != 0 && body.get("TYPE") != TYPE && body.get_class() != "Camera2D":
 			health -= body.get("DAMAGE")
 			hitstun = 10
+			hurt = 5
 			knockdir = global_transform.origin - body.global_transform.origin
-			if hurt == 0:
-				hurt = 5
 
 func use_item(item):
 	var newitem = item.instance()
