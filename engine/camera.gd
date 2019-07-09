@@ -8,7 +8,7 @@ func _ready():
 	$area.connect("body_exited", self,"body_exited")
 
 func _process(delta):
-	var pos = get_node("../player").global_position
+	var pos = get_node("../YSort/player").global_position
 	global_position = Vector2(pos.x,pos.y)
 
 func body_entered(body):
