@@ -55,11 +55,12 @@ func damage_loop():
 			queue_free()
 	for area in $hitbox.get_overlapping_areas():
 		var body = area.get_parent()
-		if hitstun == 0 && body.get("DAMAGE") != 0 && body.get("TYPE") != TYPE && body.get_class() != "Camera2D":
-			health -= body.get("DAMAGE")
-			hitstun = 10
-			hurt = 5
-			knockdir = global_transform.origin - body.global_transform.origin
+		if body.get("TYPE") == "PLAYER" or body.get("TYPE") == "ENEMY":
+			if hitstun == 0 && body.get("DAMAGE") != 0 && body.get("TYPE") != TYPE:
+				health -= body.get("DAMAGE")
+				hitstun = 10
+				hurt = 5
+				knockdir = global_transform.origin - body.global_transform.origin
 
 func use_item(item):
 	var newitem = item.instance()
