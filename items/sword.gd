@@ -9,6 +9,8 @@ func _ready():
 	TYPE = get_parent().TYPE
 	$anim.connect("animation_finished",self,"destroy")
 	$anim.play(str("swing",get_parent().attack_dir))
+#	get_node("Sprite").z_index=get_node("../../../TileMap").z_index-1
+	z_as_relative=true
 	if get_parent().has_method("state_swing"):
 		get_parent().state = "swing"
 

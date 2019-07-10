@@ -58,6 +58,17 @@ func damage_loop():
 		if body.get("TYPE") == "PLAYER" or body.get("TYPE") == "ENEMY":
 			if hitstun == 0 && body.get("DAMAGE") != 0 && body.get("TYPE") != TYPE:
 				health -= body.get("DAMAGE")
+				
+				# player health ui
+				if body.get("TYPE") != "PLAYER":
+					var HUDUIs = get_node("../../HUD").get_children()
+					if HUDUIs[HUDUIs.size()-1].get_node("heart") && HUDUIs[HUDUIs.size()-1].get_node("heart").frame > 0:
+						if HUDUIs[HUDUIs.size()-1].get_node("heart").frame == 1:
+							HUDUIs[HUDUIs.size()-1].queue_free()
+						HUDUIs[HUDUIs.size()-1].get_node("heart").frame -= 1
+					else:
+						print("YOU'RE DEAD HOMIE LOL")
+					
 				hitstun = 10
 				hurt = 5
 				knockdir = global_transform.origin - body.global_transform.origin

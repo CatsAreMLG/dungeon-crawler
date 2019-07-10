@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://engine/camera.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://shaders/light2d.png" type="Texture" id=5]
 [ext_resource path="res://tiles/fountain_red.png" type="Texture" id=6]
 [ext_resource path="res://areas/lava.gd" type="Script" id=7]
+[ext_resource path="res://enemies/skeleton.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends TileMap
@@ -18,6 +19,90 @@ func _ready():
 extents = Vector2( 8, 8 )
 
 [sub_resource type="Animation" id=3]
+resource_name = "lava"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.470588, 0, 1 ), Color( 1, 0.584314, 0, 1 ), Color( 1, 0.470588, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.01, 1.1, 1.04 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "lava"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.470588, 0, 1 ), Color( 1, 0.584314, 0, 1 ), Color( 1, 0.470588, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.01, 1.1, 1.04 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "lava"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.470588, 0, 1 ), Color( 1, 0.584314, 0, 1 ), Color( 1, 0.470588, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.01, 1.1, 1.04 ]
+}
+
+[sub_resource type="Animation" id=6]
 resource_name = "lava"
 loop = true
 tracks/0/type = "value"
@@ -74,27 +159,38 @@ script = SubResource( 1 )
 [node name="YSort" type="YSort" parent="."]
 
 [node name="player" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 160, 128 )
+editor/display_folded = true
+position = Vector2( 112, 104 )
+z_index = 1
 
 [node name="Light2D" type="Light2D" parent="YSort/player"]
 texture = ExtResource( 5 )
 texture_scale = 1.5
 energy = 0.95
 
-[node name="Sprite" type="Sprite" parent="YSort"]
+[node name="fountains" type="Node2D" parent="YSort"]
+
+[node name="fountain" type="Node2D" parent="YSort/fountains"]
+editor/display_folded = true
+z_index = 1
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="YSort/fountains/fountain"]
 position = Vector2( 248, 0 )
 texture = ExtResource( 6 )
 centered = false
 offset = Vector2( -8, -16 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="YSort/Sprite"]
+[node name="StaticBody2D" type="StaticBody2D" parent="YSort/fountains/fountain/Sprite"]
 editor/display_folded = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Sprite/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/fountains/fountain/Sprite/StaticBody2D"]
 position = Vector2( 0, 8 )
 shape = SubResource( 2 )
 
-[node name="Light2D" type="Light2D" parent="YSort/Sprite"]
+[node name="Light2D" type="Light2D" parent="YSort/fountains/fountain/Sprite"]
 texture = ExtResource( 5 )
 offset = Vector2( 0, 16 )
 texture_scale = 0.4
@@ -104,8 +200,135 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="anim" type="AnimationPlayer" parent="YSort/Sprite"]
+[node name="anim" type="AnimationPlayer" parent="YSort/fountains/fountain/Sprite"]
 anims/lava = SubResource( 3 )
 script = ExtResource( 7 )
 
-[node name="fountain" type="Node2D" parent="YSort"]
+[node name="fountain2" type="Node2D" parent="YSort/fountains"]
+editor/display_folded = true
+position = Vector2( -144, 0 )
+z_index = 1
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="YSort/fountains/fountain2"]
+position = Vector2( 248, 0 )
+texture = ExtResource( 6 )
+centered = false
+offset = Vector2( -8, -16 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="YSort/fountains/fountain2/Sprite"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/fountains/fountain2/Sprite/StaticBody2D"]
+position = Vector2( 0, 8 )
+shape = SubResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="YSort/fountains/fountain2/Sprite"]
+texture = ExtResource( 5 )
+offset = Vector2( 0, 16 )
+texture_scale = 0.4
+color = Color( 1, 0.470588, 0, 1 )
+energy = 1.1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="anim" type="AnimationPlayer" parent="YSort/fountains/fountain2/Sprite"]
+anims/lava = SubResource( 4 )
+script = ExtResource( 7 )
+
+[node name="fountain3" type="Node2D" parent="YSort/fountains"]
+editor/display_folded = true
+position = Vector2( -48, -144 )
+z_index = 1
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="YSort/fountains/fountain3"]
+position = Vector2( 248, 0 )
+texture = ExtResource( 6 )
+centered = false
+offset = Vector2( -8, -16 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="YSort/fountains/fountain3/Sprite"]
+editor/display_folded = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/fountains/fountain3/Sprite/StaticBody2D"]
+position = Vector2( 0, 8 )
+shape = SubResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="YSort/fountains/fountain3/Sprite"]
+texture = ExtResource( 5 )
+offset = Vector2( 0, 16 )
+texture_scale = 0.4
+color = Color( 1, 0.470588, 0, 1 )
+energy = 1.1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="anim" type="AnimationPlayer" parent="YSort/fountains/fountain3/Sprite"]
+anims/lava = SubResource( 5 )
+script = ExtResource( 7 )
+
+[node name="fountain4" type="Node2D" parent="YSort/fountains"]
+editor/display_folded = true
+position = Vector2( -176, -176 )
+z_index = 1
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="YSort/fountains/fountain4"]
+position = Vector2( 248, 0 )
+texture = ExtResource( 6 )
+centered = false
+offset = Vector2( -8, -16 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="YSort/fountains/fountain4/Sprite"]
+editor/display_folded = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/fountains/fountain4/Sprite/StaticBody2D"]
+position = Vector2( 0, 8 )
+shape = SubResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="YSort/fountains/fountain4/Sprite"]
+texture = ExtResource( 5 )
+offset = Vector2( 0, 16 )
+texture_scale = 0.4
+color = Color( 1, 0.470588, 0, 1 )
+energy = 1.1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="anim" type="AnimationPlayer" parent="YSort/fountains/fountain4/Sprite"]
+anims/lava = SubResource( 6 )
+script = ExtResource( 7 )
+
+[node name="skeletons" type="Node2D" parent="YSort"]
+editor/display_folded = true
+z_index = 1
+
+[node name="skeleton" parent="YSort/skeletons" instance=ExtResource( 8 )]
+position = Vector2( 152, 32 )
+
+[node name="skeleton2" parent="YSort/skeletons" instance=ExtResource( 8 )]
+position = Vector2( 80, 64 )
+
+[node name="skeleton3" parent="YSort/skeletons" instance=ExtResource( 8 )]
+position = Vector2( 80, 112 )
+
+[node name="skeleton4" parent="YSort/skeletons" instance=ExtResource( 8 )]
+position = Vector2( 240, -64 )
+
+[node name="skeleton5" parent="YSort/skeletons" instance=ExtResource( 8 )]
+position = Vector2( 256, 96 )
+
+[node name="skeleton6" parent="YSort/skeletons" instance=ExtResource( 8 )]
+position = Vector2( 64, -128 )
+
+[node name="skeleton7" parent="YSort/skeletons" instance=ExtResource( 8 )]
+position = Vector2( 72, -56 )

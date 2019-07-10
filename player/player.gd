@@ -7,6 +7,7 @@ func _init():
 	SPEED = 70
 	TYPE = "PLAYER"
 	DAMAGE = 0
+	health = 6
 
 func _physics_process(delta):
 	match state:
@@ -53,10 +54,12 @@ func state_default():
 			use_item(preload("res://items/sword.tscn"))
 
 func state_swing():
-	anim_switch("idle")
+#	anim_switch("idle")
+	controls_loop()
 	movement_loop()
+	spritedir_loop()
 	damage_loop()
-	movedir = dir.center
+#	movedir = dir.center
 
 func controls_loop():
 	var UP    = Input.is_key_pressed(KEY_W)
